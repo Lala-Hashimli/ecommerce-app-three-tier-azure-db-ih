@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: npm install, build, and test
+      - name: npm install and build
         working-directory: ecommerce-app-frontend
         run: |
           npm install
@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: ecommerce-app-frontend
+          path: ecommerce-app-frontend/build
 
   deploy:
     runs-on: self-hosted
