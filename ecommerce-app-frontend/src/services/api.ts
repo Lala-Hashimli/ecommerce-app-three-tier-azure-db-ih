@@ -12,7 +12,7 @@ import {
   CreateOrderData 
 } from '../types';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://57.158.101.83/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
 
 // Create axios instance
 const api = axios.create({
