@@ -18,7 +18,7 @@ services:
       - DB_TRUST_SERVER_CERTIFICATE=false
       - JWT_SECRET=${JWT_SECRET}
       - JWT_EXPIRES_IN=7d
-      - CORS_ORIGIN=http://localhost:3000
+      - CORS_ORIGIN=http://57.158.101.83
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "node", "healthcheck.js"]
