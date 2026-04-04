@@ -13,6 +13,7 @@ import {
 } from '../types';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+console.log('NEW FRONTEND BUILD');
 
 // Create axios instance
 const api = axios.create({
