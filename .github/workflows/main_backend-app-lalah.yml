@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     
     defaults:
       run:
@@ -53,7 +53,7 @@ jobs:
           path: ./ecommerce-app-backend
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     
     permissions:
