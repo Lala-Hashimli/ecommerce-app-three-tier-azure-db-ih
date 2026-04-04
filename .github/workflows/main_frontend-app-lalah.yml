@@ -41,14 +41,12 @@ jobs:
         env:
           CI: false
           REACT_APP_API_URL: /api
-        run: |
-          npm install
-          npm run build --if-present
+        run: npm run build --if-present
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
+          name: frontend-build
           path: ./ecommerce-app-frontend/build
 
   deploy:
