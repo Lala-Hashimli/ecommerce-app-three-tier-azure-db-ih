@@ -7,24 +7,37 @@ on:
   push:
     branches:
       - main
+    paths:
+        - 'ecommerce-app-frontend/**'
+        - '.github/workflows/main_frontend-app-lalah.yml'
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: self-hosted
+
+    defaults:
+      run:
+        working-directory: ./ecommerce-app-frontend
+        
     permissions:
       contents: read #This is required for actions/checkout
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
           node-version: '22.x'
+          cache: 'npm'
+          cache-dependency-path: ecommerce-app-frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci 
 
       - name: npm install and build
-        working-directory: ecommerce-app-frontend
         env:
           CI: false
           REACT_APP_API_URL: /api
@@ -36,12 +49,13 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          path: ecommerce-app-frontend/build
+          name: frontend-build
+          path: ./ecommerce-app-frontend/build
 
   deploy:
     runs-on: self-hosted
     needs: build
+    
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
@@ -50,7 +64,8 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: node-app
+          name: frontend-build
+          path: ./frontend-build
   
       - name: Login to Azure
         uses: azure/login@v2
@@ -60,10 +75,9 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D745C1D99C30435A99DD7D900EF09624 }}
 
       - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'frontend-app-lalah'
           slot-name: 'Production'
-          package: .
+          package: ./frontend-build
           
