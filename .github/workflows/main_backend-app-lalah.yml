@@ -19,16 +19,12 @@ jobs:
     defaults:
       run:
         working-directory: ./ecommerce-app-backend
-    
-    permissions:
-      contents: read #This is required for actions/checkout
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
+      
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: '20.x'
           cache: 'npm'
@@ -75,6 +71,7 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_36325C8CB1BC4C46B56567FB4F1B7A1B }}
 
       - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'backend-app-lalah'
